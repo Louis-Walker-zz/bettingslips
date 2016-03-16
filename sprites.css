@@ -1,0 +1,24 @@
+.sprites {
+  width: 32px;
+  height: 32px;
+  margin-top: 5px;
+  background: url(sprites.png) 0 0;
+}
+.england {
+  background-position: 0 0;
+}
+.brazil {
+  background-position: -32px 0;
+}
+.spain {
+  background-position: -64px 0;
+}
+.germany {
+  background-position: -96px 0;
+}
+.europe {
+  background-position: -128px 0;
+}
+.usa {
+  background-position: -160px 0;
+}

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Betting Slip</title>
+
+  <link rel="stylesheet" type="text/css" href="fonts.css" />
+  <link rel="stylesheet" type="text/css" href="reset.css" />
+  <link rel="stylesheet" type="text/css" href="styles.css" />
+  <link rel="stylesheet" type="text/css" href="sprites.css" />
+  <link rel="stylesheet" href="vex.css" />
+  <link rel="stylesheet" href="vex-theme-flat-attack.css" />
+</head>
+<body>
+  <header class="app-header flex">
+    <section class="app-title">
+      <h1>Sports Betting Slips</h1>
+
+      <h2>Created by Louis Walker</h2>
+    </section>
+
+    <section class="app-source">
+      <ul>
+        <li class="flex"><a href="https://github.com/Pheta/bettingslips">View on GitHub</a></li>
+        <li class="flex"><a href="Sports Betting Slip.zip" download>Download Source Zip</a></li>
+      </ul>
+    </section>
+  </header>
+
+  <section class="app-content flex">
+    <div class="app-main">
+      <ul class="bet-slips">
+      </ul>
+
+      <div class="user-receipts">
+        <table class="user-receipts-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Event</th>
+              <th>Team</th>
+              <th>Odds</th>
+              <th>Stake</th>
+              <th>Return</th>
+            </tr>
+          </thead>
+          <tbody class="active-receipts">
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="app-side">
+      <ul class="user-slips">
+        <h3>Your Slips</h3>
+      </ul>
+    </div>
+  </section>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+  <script src="vex.combined.min.js"></script>
+  <script>vex.defaultOptions.className = 'vex-theme-flat-attack';</script>
+  <script type="text/javascript" src="app.js"></script>
+</body>
+</html>

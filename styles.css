@@ -1,0 +1,247 @@
+.flex {
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flex;
+  display: flex;
+}
+.app-header {
+  width: 80%;
+  min-width: 620px;
+  max-width: 840px;
+  margin: 40px auto;
+  padding-bottom: 8px;
+  border-bottom: 3px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 6px 12px -8px rgba(0, 0, 0, 0.2);
+}
+h1 {
+  font: 700 32px "Roboto Condensed";
+}
+h2 {
+  font: 500 18px "Roboto Condensed";
+}
+h3 {
+  margin-bottom: 18px;
+  font: 700 32px "Roboto Condensed";
+  color: rgba(0, 0, 0, 0.5);
+  text-align: center;
+}
+h3::after {
+  display: block;
+  content: "You have no slips yet :(";
+  height: 0;
+  font: 500 22px "Roboto Condensed";
+  color: rgba(0, 0, 0, 0.3);
+  position: relative;
+  transform: translate(0, 20px);
+  z-index: -1;
+}
+h4 {
+  font: 700 26px "Roboto Condensed";
+  color: rgba(0, 0, 0, 0.7);
+}
+.app-title {
+  width: 76%;
+}
+.app-source {
+  margin-top: 12px;
+}
+.app-source ul li div {
+  margin-right: 8px;
+}
+.app-source ul li a {
+  font: 700 16px "Roboto Condensed";
+}
+.app-source ul li a {
+  padding: 2px 4px;
+  color: black;
+  text-decoration: none;
+  transition: all 200ms;
+}
+.app-source ul li a:hover {
+  color: white;
+  background-color: #2a5cff;
+  transition: all 200ms;
+}
+.app-content {
+  width: 80%;
+  min-width: 620px;
+  max-width: 840px;
+  margin: 0 auto;
+}
+.app-main {
+  width: 63%;
+}
+.app-side {
+  width: 33%;
+  margin: 0 0 0 4%;
+}
+.bet-slips {
+  width: 100%;
+}
+.bet-slips::before {
+  display: block;
+  content: "Available Bets";
+  width: 220px;
+  height: 0;
+  font: 700 32px "Roboto Condensed";
+  color: rgba(0, 0, 0, 0.5);
+  transform: rotate(-90deg) translate(-140px, -170px);
+}
+.slip {
+  width: 100%;
+  height: 42px;
+  margin: 0 0 12px 0;
+  padding: 0 0 0 8px;
+  background-color: white;
+  box-shadow: 4px 4px 0 0 rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  cursor: pointer;
+}
+.slip:hover .odds {
+  width: 86px;
+  -webkit-transition: width 400ms;
+  -moz-transition: width 400ms;
+  -o-transition: width 400ms;
+  transition: width 400ms;
+}
+.team-name {
+  margin: 6px 0 0 16px;
+  font: 700 24px "Roboto Condensed";
+  color: rgba(0, 0, 0, 0.7);
+}
+.condition {
+  height: 22px;
+  margin: 10px 0 0 12px;
+  padding-left: 6px;
+  border-left: 2px solid rgba(0, 0, 0, 0.1);
+  font: 700 18px "Roboto Condensed";
+  color: rgba(0, 0, 0, 0.5);
+}
+.odds {
+  width: 64px;
+  margin-left: auto;
+  padding-top: 8px;
+  background-color: #2a5cff;
+  font-size: 24px;
+  text-align: center;
+  color: white;
+  -webkit-transition: width 400ms;
+  -moz-transition: width 400ms;
+  -o-transition: width 400ms;
+  transition: width 400ms;
+}
+.odds-num {
+
+}
+.odds-denom {
+
+}
+.user-slips {
+  width: 100%;
+}
+.selected-slip {
+  width: 100%;
+  height: 150px;
+  margin-bottom: 12px;
+  padding-top: 6px;
+  background-color: white;
+  box-shadow: 4px 4px 0 0 rgba(0, 0, 0, 0.1);
+  text-align: center;
+  overflow: hidden;
+  opacity: 0;
+}
+.sel-num, .sel-slash, .sel-denom {
+  margin-top: 6px;
+  font: 500 22px "Roboto Condensed";
+  color: rgba(0, 0, 0, 0.7);
+}
+.stake-form {
+  width: 72%;
+  margin: 12px auto;
+}
+.sel-stake {
+  width: 42%;
+  height: 28px;
+  margin: 0 6% 0 0;
+  padding-left: 4px;
+  border: 2px solid #2a5cff;
+  font: 500 16px "Roboto Condensed";
+  color: #2a5cff;
+}
+.sel-stake:focus {
+  outline: none;
+}
+.sel-stake::-webkit-input-placeholder {
+  color: #2a5cff;
+}
+.submit-stake {
+  width: 42%;
+  height: 28px;
+  background-color: #2a5cff;
+  border: none;
+  font: 700 16px "Roboto Condensed";
+  color: white;
+  vertical-align: top;
+  box-shadow: inset 0 0 0 2px #2a5cff;
+  -webkit-transition: all 200ms;
+  -moz-transition: all 200ms;
+  -o-transition: all 200ms;
+  transition: all 200ms;
+}
+.submit-stake:focus {
+  outline: none;
+}
+.submit-stake:hover {
+  background-color: white;
+  color: #2a5cff;
+  cursor: pointer;
+  -webkit-transition: all 200ms;
+  -moz-transition: all 200ms;
+  -o-transition: all 200ms;
+  transition: all 200ms;
+}
+.sel-returns {
+  display: block;
+  margin-top: 10px;
+  font-size: 18px;
+  font-weight: 700;
+  color: rgba(0, 0, 0, 0.5);
+}
+.user-receipts {
+  width: 100%;
+  margin: 32px 0 0 0;
+}
+.user-receipts::before {
+  display: block;
+  content: "Your Receipts";
+  width: 220px;
+  height: 0;
+  font: 700 32px "Roboto Condensed";
+  color: rgba(0, 0, 0, 0.5);
+  transform: rotate(-90deg) translate(-140px, -170px);
+}
+.user-receipts-table {
+  width: 100%;
+}
+.user-receipts thead {
+  margin-bottom: 4px;
+  border-bottom: 2px solid #2a5cff;
+}
+.user-receipts thead tr {
+  font-weight: 700;
+  font-size: 22px;
+  color: rgba(0, 0, 0, 0.8);
+  text-align: left;
+}
+.user-receipts thead tr th {
+  padding-bottom: 4px;
+}
+.user-receipts tbody tr {
+  margin-top: 4px;
+  color: rgba(0, 0, 0, 0.8);
+  font-weight: 500;
+  font-size: 18px;
+}
+.user-receipts tbody tr td {
+  padding-top: 6px;
+}
