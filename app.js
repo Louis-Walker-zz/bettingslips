@@ -156,7 +156,7 @@ function addSlip() {
         stakeMultiplier = eval($selectedNum.innerHTML + "/" + $selectedDenom.innerHTML),
         stakeReturns = stakeMultiplier * this.value;
 
-    $selectedReturns.innerHTML = "Potential Return: &pound" + (stakeReturns.toFixed(2));
+    $selectedReturns.innerHTML = "Potential Profit: &pound" + (stakeReturns.toFixed(2));
   }
 
   function submitBet() {
