@@ -1,7 +1,7 @@
 // DOM reference
-var $betSlips = $(".bet-slips")[0],
-    $userSlips = $(".user-slips")[0],
-    $activeReceipts = $(".active-receipts")[0];
+var $availableBets = document.getElementsByClassName("available-bets")[0],
+    $slips = document.getElementsByClassName("slips")[0],
+    $activeReceipts = document.getElementsByClassName("active-receipts")[0];
 
 // Gets open bets (string) and parses them into a JS array
 var getOpenBets = new XMLHttpRequest();
@@ -12,151 +12,90 @@ var openBets = JSON.parse(getOpenBets.responseText);
 
 // Checks if XHR was successful, if not then error dialog
 if (getOpenBets.status == 200) {
-  // Populates .bet-slips with openBets
+  // Populates $availableBets with openBets
   for (var i = 0; i < openBets.length; i++) {
+    // Bet Template
+    createElement($availableBets, "li", ["bet", "flex"], openBets[i].bet_id);
+    var $bet = document.getElementsByClassName("bet")[i];
 
-    // Betting Slip Template
-    var _slip = document.createElement("li");
-    $betSlips.appendChild(_slip);
-    _slip.classList.add("slip");
-    _slip.classList.add("flex");
-    var dataSlipId = document.createAttribute("data-slipId");
-    dataSlipId.value = openBets[i].bet_id;
-    _slip.setAttributeNode(dataSlipId);
-    var $slip = $(".slip")[i];
-
-    var _teamLogo = document.createElement("div");
-    $slip.appendChild(_teamLogo);
-    _teamLogo.classList.add("team-logo");
-    _teamLogo.classList.add("sprites");
-
-    var _teamName = document.createElement("span");
-    $slip.appendChild(_teamName);
-    _teamName.classList.add("team-name");
-
-    var _condition = document.createElement("span");
-    $slip.appendChild(_condition);
-    _condition.classList.add("condition");
-
-    var _odds = document.createElement("div");
-    $slip.appendChild(_odds);
-    _odds.classList.add("odds");
-    var $odds = $(".odds")[i];
-
-    var _num = document.createElement("span");
-    $odds.appendChild(_num);
-    _num.classList.add("odds-num");
-
-    var _slash = document.createElement("span");
-    $odds.appendChild(_slash);
-    _slash.classList.add("odds-slash");
-    _slash.innerHTML = "/";
-
-    var _denom = document.createElement("span");
-    $odds.appendChild(_denom);
-    _denom.classList.add("odds-denom");
+    createElement($bet, "div", ["team-logo", "sprites"]);
+    createElement($bet, "span", ["team-name"]);
+    createElement($bet, "span", ["condition"]);
+    createElement($bet, "div", ["odds"]);
 
     // Slip Reference
-    var $teamLogo = $(".team-logo")[i],
-        $teamName = $(".team-name")[i],
-        $condition = $(".condition")[i],
-        $oddsNum = $(".odds-num")[i],
-        $oddsDenom = $(".odds-denom")[i];
+    var $teamLogo = document.getElementsByClassName("team-logo")[i],
+        $teamName = document.getElementsByClassName("team-name")[i],
+        $condition = document.getElementsByClassName("condition")[i],
+        $odds = document.getElementsByClassName("odds")[i];
 
     // Populates slip elements with openBets[i]
     var eventName = openBets[i].event;
     eventName = eventName.replace(/\s/g, "-").toLowerCase();
 
-    _slip.classList.add(eventName);
+    $bet.classList.add(eventName);
     $teamLogo.classList.add(openBets[i].name.toLowerCase());
     $teamName.innerHTML = openBets[i].name;
     $condition.innerHTML = "to win " + openBets[i].event;
-    $oddsNum.innerHTML = openBets[i].odds.numerator;
-    $oddsDenom.innerHTML = openBets[i].odds.denominator;
+    $odds.innerHTML = openBets[i].odds.numerator + "/" + openBets[i].odds.denominator;
   }
 
   // Adds click event listener to available bets for the user to select bets
-  var $slip = $(".slip");
+  var $bet = document.getElementsByClassName("bet");
 
-  for (var i = 0; i < $slip.length; i++) {
-    $slip[i].addEventListener("click", addSlip);
+  for (var i = 0; i < $bet.length; i++) {
+    $bet[i].addEventListener("click", addSlip);
   }
 
 } else {
-  vex.dialog.alert("Sorry we were unable to find available bets. Try refeshing the page or come back later.");
+  // TODO: Replace Vex Dialogue
 }
 
-// Adds elements and openBet to userSlip
+// Creates slip with $slipId
 function addSlip() {
-  var $slipId = this.getAttribute("data-slipId"),
-      $slipArray = $(".selected-slip"),
-      $thisSlip = $slipArray.length;
+  var $slipId = this.getAttribute("data-betId"),
+      $slipArray = document.getElementsByClassName("slip"),
+      $thisSlip = $slipArray.length,
+      thisBet = openBets[$slipId - 1];
 
-  var _userSlip = document.createElement("li");
-  $userSlips.appendChild(_userSlip);
-  _userSlip.classList.add("selected-slip");
-  var $selectedSlipArray = $(".selected-slip"),
-      $selectedSlip = $(".selected-slip").get($slipArray.length);
-  $(".selected-slip").animate({opacity: 1}, 300);
+  createElement($slips, "li", ["slip"], $slipId);
+  var $selectedSlip = document.getElementsByClassName("slip")[$slipArray.length - 1];
 
-  var _teamName = document.createElement("h4");
-  $selectedSlip.appendChild(_teamName);
-  _teamName.innerHTML = openBets[$slipId - 1].name;
+  createElement($selectedSlip, "h4", ["slip-name"]);
+  getElementByBetId($slipId, document.getElementsByClassName("slip-name")).innerHTML = thisBet.name;
 
-  var _slipNum = document.createElement("span");
-  $selectedSlip.appendChild(_slipNum);
-  _slipNum.classList.add("sel-num");
-  _slipNum.innerHTML = openBets[$slipId - 1].odds.numerator;
+  createElement($selectedSlip, "span", ["slip-odds"]);
+  getElementByBetId($slipId, document.getElementsByClassName("slip-odds")).innerHTML = thisBet.odds.numerator + "/" + thisBet.odds.denominator;
 
-  var _slipSlash = document.createElement("span");
-  $selectedSlip.appendChild(_slipSlash);
-  _slipSlash.classList.add("sel-slash");
-  _slipSlash.innerHTML = "/";
+  createElement($selectedSlip, "form", ["stake-form"]);
+  var $stakeForm = document.getElementsByClassName("stake-form")[$slipArray.length - 1];
 
-  var _slipDenom = document.createElement("span");
-  $selectedSlip.appendChild(_slipDenom);
-  _slipDenom.classList.add("sel-denom");
-  _slipDenom.innerHTML = openBets[$slipId - 1].odds.denominator;
-
-  var _slipStakeForm = document.createElement("form");
-  $selectedSlip.appendChild(_slipStakeForm);
-  _slipStakeForm.classList.add("stake-form");
-  var $stakeForm = $(".stake-form").get($slipArray.length);
-
-  var _stake = document.createElement("input");
-  $stakeForm.appendChild(_stake);
-  _stake.classList.add("sel-stake");
+  createElement($stakeForm, "input", ["slip-stake"]);
   var stakeType = document.createAttribute("type");
   stakeType.value = "number";
-  _stake.setAttributeNode(stakeType);
+  getElementByBetId($slipId, document.getElementsByClassName("slip-stake"), 2).setAttributeNode(stakeType);
   var stakePlaceholder = document.createAttribute("placeholder");
   stakePlaceholder.value = "stake";
-  _stake.setAttributeNode(stakePlaceholder);
-  _stake.addEventListener("input", updateReturns);
+  getElementByBetId($slipId, document.getElementsByClassName("slip-stake"), 2).setAttributeNode(stakePlaceholder);
+  getElementByBetId($slipId, document.getElementsByClassName("slip-stake"), 2).addEventListener("input", updateReturns);
 
-  var _submitStake = document.createElement("button");
-  $stakeForm.appendChild(_submitStake);
-  _submitStake.id = "sumbitStakeBtn";
-  _submitStake.classList.add("submit-stake");
-  _submitStake.innerHTML = "Bet";
+  createElement($stakeForm, "button", ["submit-stake"]);
+  getElementByBetId($slipId, document.getElementsByClassName("submit-stake"), 2).innerHTML = "Bet";
   var submitStakeType = document.createAttribute("type");
   submitStakeType.value = "button";
-  _submitStake.setAttributeNode(submitStakeType);
-  _submitStake.addEventListener("click", submitBet);
+  getElementByBetId($slipId, document.getElementsByClassName("submit-stake"), 2).addEventListener("click", submitBet);
+  getElementByBetId($slipId, document.getElementsByClassName("submit-stake"), 2).setAttributeNode(submitStakeType);
 
-  var _returns = document.createElement("span");
-  $selectedSlip.appendChild(_returns);
-  _returns.classList.add("sel-returns");
-  _returns.innerHTML = "Potential Profit: &pound0.00";
+  createElement($selectedSlip, "span", ["slip-returns"]);
+  getElementByBetId($slipId, document.getElementsByClassName("slip-returns")).innerHTML = "Potential Profit: &pound0.00";
 
   function updateReturns() {
-    var $selectedNum = $(".sel-num").get($thisSlip),
-        $selectedDenom = $(".sel-denom").get($thisSlip),
-        $selectedReturns = $(".sel-returns").get($thisSlip),
-        stakeMultiplier = eval($selectedNum.innerHTML + "/" + $selectedDenom.innerHTML),
-        stakeReturns = stakeMultiplier * this.value;
+    var $slipOdds = getElementByBetId($slipId, document.getElementsByClassName("slip-odds")),
+        stakeMultiplier = eval($slipOdds.innerHTML),
+        stakeReturns = stakeMultiplier * this.value,
+        $returns = elevateNode(this, 2);
 
-    $selectedReturns.innerHTML = "Potential Profit: &pound" + (stakeReturns.toFixed(2));
+    $returns.lastChild.innerHTML = "Potential Profit: &pound" + (stakeReturns.toFixed(2));
   }
 
   function submitBet() {
@@ -164,9 +103,9 @@ function addSlip() {
     postBet.open("Post", "https://bedefetechtest.herokuapp.com/v1/bets", false);
     postBet.setRequestHeader("Content-type", "application/json");
 
-    var $betStakeValue = $(".sel-stake").get($slipArray.length).value,
-        $betNum = $(".sel-num").get($slipArray.length).innerHTML,
-        $betDenom = $(".sel-denom").get($slipArray.length).innerHTML;
+    var $betStakeValue = getElementByBetId($slipId, document.getElementsByClassName("slip-stake"), 2).value,
+        $betNum = openBets[$slipId - 1].odds.numerator,
+        $betDenom = openBets[$slipId - 1].odds.denominator,
         betObject = {
           "bet_id": $slipId,
           "odds": {
@@ -181,51 +120,32 @@ function addSlip() {
 
     // Checks if XHR was successful, if not then error dialog
     if (postBet.status == 201) {
-      createReceipt(JSON.parse(postBet.responseText));
+      createReceipt(JSON.parse(postBet.responseText), $slipId);
 
-      // Removes betting slip
-      $(this).parent().parent().fadeOut(300, function() {
-        $(this).remove();
-      });
+      // TODO: Removes betting slip
 
-      console.log(postBet.status);
+
     } else {
-      console.log(postBet.status);
-      vex.dialog.alert("Sorry we were unable to process your bet. Please try again later.");
+      // TODO: Replace Vex Dialogue
     }
   }
 }
 
 // Adds receipt to active-receipts
-function createReceipt(receiptParams) {
-
+function createReceipt(receiptParams, $slipId) {
   // Receipt Template
-  var transactionId = receiptParams.transaction_id;
-
-  var _receipt = document.createElement("tr");
-  $activeReceipts.appendChild(_receipt);
+  createElement($activeReceipts, "tr", ["receipt"], $slipId);
   var receiptId = document.createAttribute("name");
-  receiptId.value = transactionId.toString();
-  _receipt.setAttributeNode(receiptId);
-  var $thisReceipt = document.getElementsByName(transactionId.toString())[0];
+  receiptId.value = receiptParams.transaction_id.toString();
+  getElementByBetId($slipId, document.getElementsByClassName("receipt"), 0).setAttributeNode(receiptId);
+  var $thisReceipt = document.getElementsByName(receiptParams.transaction_id.toString())[0];
 
-  var _transactionId = document.createElement("td");
-  $thisReceipt.appendChild(_transactionId);
-
-  var _eventName = document.createElement("td");
-  $thisReceipt.appendChild(_eventName);
-
-  var _teamName = document.createElement("td");
-  $thisReceipt.appendChild(_teamName);
-
-  var _odds = document.createElement("td");
-  $thisReceipt.appendChild(_odds);
-
-  var _stake = document.createElement("td");
-  $thisReceipt.appendChild(_stake);
-
-  var _return = document.createElement("td");
-  $thisReceipt.appendChild(_return);
+  createElement($thisReceipt, "td");
+  createElement($thisReceipt, "td");
+  createElement($thisReceipt, "td");
+  createElement($thisReceipt, "td");
+  createElement($thisReceipt, "td");
+  createElement($thisReceipt, "td");
 
   // Receipt Reference
   var $transactionId = $thisReceipt.childNodes[0],
@@ -242,4 +162,54 @@ function createReceipt(receiptParams) {
   $odds.innerHTML = receiptParams.odds.numerator + "/" + receiptParams.odds.denominator;
   $stake.innerHTML = "&pound" + receiptParams.stake;
   $_return.innerHTML = "&pound" + (eval($odds.innerHTML) * receiptParams.stake + receiptParams.stake).toFixed(2);
+}
+
+// Modular Functions
+// Creates element with specified data-betId and classes
+function createElement(parent, type, classes, betId) {
+  var el = document.createElement(type);
+  parent.appendChild(el);
+
+  if (classes !== undefined) {
+    for (var i = 0; classes.length > i; i++) {
+      el.classList.add(classes[i]);
+    }
+  }
+
+  if (betId !== undefined) {
+    var dataBetId = document.createAttribute("data-betId");
+    dataBetId.value = betId;
+    el.setAttributeNode(dataBetId);
+  }
+}
+
+// Gets element based on betId and className
+function getElementByBetId(betId, className, elevation) {
+  if (elevation == undefined) {
+    var elevation = 1;
+  }
+
+  for (var i = 0; className.length > i; i++) {
+    var target = elevateNode(className[i], elevation);
+
+    if (getBetId(target) == betId) {
+      return className[i];
+    }
+  }
+}
+
+// Gets DOM object of target's ascendant
+function elevateNode(target, elevate) {
+  var elevation = target;
+
+  for (var i = 0; elevate > i; i++) {
+    elevation = elevation.parentNode;
+  }
+
+  return elevation;
+}
+
+// Gets data-betId from target
+function getBetId(target) {
+  return target.getAttribute("data-betId");
 }

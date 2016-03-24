@@ -7,8 +7,6 @@
   <link rel="stylesheet" type="text/css" href="reset.css" />
   <link rel="stylesheet" type="text/css" href="styles.css" />
   <link rel="stylesheet" type="text/css" href="sprites.css" />
-  <link rel="stylesheet" href="vex.css" />
-  <link rel="stylesheet" href="vex-theme-flat-attack.css" />
 </head>
 <body>
   <header class="app-header flex">
@@ -28,11 +26,11 @@
 
   <section class="app-content flex">
     <div class="app-main">
-      <ul class="bet-slips">
+      <ul class="available-bets">
       </ul>
 
-      <div class="user-receipts">
-        <table class="user-receipts-table">
+      <div class="receipts">
+        <table class="receipts-table">
           <thead>
             <tr>
               <th>ID</th>
@@ -50,15 +48,12 @@
     </div>
 
     <div class="app-side">
-      <ul class="user-slips">
+      <ul class="slips">
         <h3>Your Slips</h3>
       </ul>
     </div>
   </section>
 
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
-  <script src="vex.combined.min.js"></script>
-  <script>vex.defaultOptions.className = 'vex-theme-flat-attack';</script>
   <script type="text/javascript" src="app.js"></script>
 </body>
 </html>
