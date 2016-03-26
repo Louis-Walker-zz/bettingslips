@@ -1,56 +1,3 @@
-// DOM reference
-var $availableBets = document.getElementsByClassName("available-bets")[0],
-    $slips = document.getElementsByClassName("slips")[0],
-    $activeReceipts = document.getElementsByClassName("active-receipts")[0];
-
-// Gets open bets (string) and parses them into a JS array
-var getOpenBets = new XMLHttpRequest();
-getOpenBets.open("GET", "https://bedefetechtest.herokuapp.com/v1/markets", false);
-getOpenBets.send();
-
-var openBets = JSON.parse(getOpenBets.responseText);
-
-// Checks if XHR was successful, if not then error dialog
-if (getOpenBets.status == 200) {
-  // Populates $availableBets with openBets
-  for (var i = 0; i < openBets.length; i++) {
-    // Bet Template
-    createElement($availableBets, "li", ["bet", "flex"], openBets[i].bet_id);
-    var $bet = document.getElementsByClassName("bet")[i];
-
-    createElement($bet, "div", ["team-logo", "sprites"]);
-    createElement($bet, "span", ["team-name"]);
-    createElement($bet, "span", ["condition"]);
-    createElement($bet, "div", ["odds"]);
-
-    // Slip Reference
-    var $teamLogo = document.getElementsByClassName("team-logo")[i],
-        $teamName = document.getElementsByClassName("team-name")[i],
-        $condition = document.getElementsByClassName("condition")[i],
-        $odds = document.getElementsByClassName("odds")[i];
-
-    // Populates slip elements with openBets[i]
-    var eventName = openBets[i].event;
-    eventName = eventName.replace(/\s/g, "-").toLowerCase();
-
-    $bet.classList.add(eventName);
-    $teamLogo.classList.add(openBets[i].name.toLowerCase());
-    $teamName.innerHTML = openBets[i].name;
-    $condition.innerHTML = "to win " + openBets[i].event;
-    $odds.innerHTML = openBets[i].odds.numerator + "/" + openBets[i].odds.denominator;
-  }
-
-  // Adds click event listener to available bets for the user to select bets
-  var $bet = document.getElementsByClassName("bet");
-
-  for (var i = 0; i < $bet.length; i++) {
-    $bet[i].addEventListener("click", addSlip);
-  }
-
-} else {
-  // TODO: Replace Vex Dialogue
-}
-
 // Creates slip with $slipId
 function addSlip() {
   var $slipId = this.getAttribute("data-betId"),
@@ -60,6 +7,7 @@ function addSlip() {
 
   createElement($slips, "li", ["slip"], $slipId);
   var $selectedSlip = document.getElementsByClassName("slip")[$slipArray.length - 1];
+  $selectedSlip.classList.add("hide");
 
   createElement($selectedSlip, "h4", ["slip-name"]);
   getElementByBetId($slipId, document.getElementsByClassName("slip-name")).innerHTML = thisBet.name;
@@ -122,13 +70,13 @@ function addSlip() {
     if (postBet.status == 201) {
       createReceipt(JSON.parse(postBet.responseText), $slipId);
 
-      // TODO: Removes betting slip
-
-
+      removeSlip(this);
     } else {
       // TODO: Replace Vex Dialogue
     }
   }
+
+  showSlip($selectedSlip);
 }
 
 // Adds receipt to active-receipts
@@ -164,7 +112,7 @@ function createReceipt(receiptParams, $slipId) {
   $_return.innerHTML = "&pound" + (eval($odds.innerHTML) * receiptParams.stake + receiptParams.stake).toFixed(2);
 }
 
-// Modular Functions
+// Single-Purpose Functions
 // Creates element with specified data-betId and classes
 function createElement(parent, type, classes, betId) {
   var el = document.createElement(type);
@@ -190,6 +138,7 @@ function getElementByBetId(betId, className, elevation) {
   }
 
   for (var i = 0; className.length > i; i++) {
+
     var target = elevateNode(className[i], elevation);
 
     if (getBetId(target) == betId) {
@@ -200,16 +149,21 @@ function getElementByBetId(betId, className, elevation) {
 
 // Gets DOM object of target's ascendant
 function elevateNode(target, elevate) {
-  var elevation = target;
-
   for (var i = 0; elevate > i; i++) {
-    elevation = elevation.parentNode;
+    target = target.parentNode;
   }
 
-  return elevation;
+  return target;
 }
 
 // Gets data-betId from target
 function getBetId(target) {
   return target.getAttribute("data-betId");
+}
+
+// Removes node
+function removeNode(target) {
+  target.classList.add("remove-node");
+
+  target.parentNode.removeChild(document.getElementsByClassName("remove-node")[0]);
 }
