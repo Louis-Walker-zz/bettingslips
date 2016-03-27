@@ -8,8 +8,8 @@
   width: 80%;
   min-width: 620px;
   max-width: 840px;
-  margin: 40px auto;
-  padding-bottom: 8px;
+  margin: 0 auto 40px;
+  padding: 40px 0 8px;
   border-bottom: 3px solid rgba(0, 0, 0, 0.1);
   box-shadow: 0 6px 12px -8px rgba(0, 0, 0, 0.2);
 }
@@ -242,4 +242,19 @@ h4 {
 }
 .hide {
   opacity: 0;
+}
+.modal-wrapper {
+  width: 100vw;
+  height: 0;
+  position: absolute;
+  z-index: 666;
+  overflow: visible;
+}
+.modal {
+  width: 32vw;
+  min-width: 220px;
+  height: 124px;
+  margin: 18vh auto;
+  background-color: white;
+  box-shadow: 4px 4px 0 0 rgba(0, 0, 0, 0.1);
 }
