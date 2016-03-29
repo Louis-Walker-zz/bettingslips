@@ -297,8 +297,7 @@ h4 {
   100% {opacity: 0;filter: alpha(opacity=0);}
 }
 .modal {
-  width: 32vw;
-  min-width: 220px;
+  width: 410px;
   height: 132px;
   margin: 0 auto;
   padding: 16px 24px 0;
