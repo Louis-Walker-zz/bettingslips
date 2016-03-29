@@ -2,6 +2,8 @@
   display: -webkit-flex;
   display: -moz-flex;
   display: -ms-flex;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
 }
 .app-header {
@@ -25,14 +27,16 @@ h3 {
   color: rgba(0, 0, 0, 0.5);
   text-align: center;
 }
-h3::after {
+h3:after {
   display: block;
   content: "You have no slips yet :(";
   height: 0;
   font: 500 22px "Roboto Condensed";
   color: rgba(0, 0, 0, 0.3);
   position: relative;
-  transform: translate(0, 20px);
+  -webkit-transform: translate(0, 20px);
+      -ms-transform: translate(0, 20px);
+          transform: translate(0, 20px);
   z-index: -1;
 }
 h4 {
@@ -55,12 +59,14 @@ h4 {
   padding: 2px 4px;
   color: black;
   text-decoration: none;
-  transition: all 200ms;
+  -webkit-transition: all 200ms;
+          transition: all 200ms;
 }
 .app-source ul li a:hover {
   color: white;
   background-color: #2a5cff;
-  transition: all 200ms;
+  -webkit-transition: all 200ms;
+          transition: all 200ms;
 }
 .app-content {
   width: 80%;
@@ -78,14 +84,16 @@ h4 {
 .available-bets {
   width: 100%;
 }
-.available-bets::before {
+.available-bets:before {
   display: block;
   content: "Available Bets";
   width: 220px;
   height: 0;
   font: 700 32px "Roboto Condensed";
   color: rgba(0, 0, 0, 0.5);
-  transform: rotate(-90deg) translate(-140px, -170px);
+  -webkit-transform: rotate(-90deg) translate(-140px, -170px);
+      -ms-transform: rotate(-90deg) translate(-140px, -170px);
+          transform: rotate(-90deg) translate(-140px, -170px);
 }
 .bet {
   width: 100%;
@@ -100,8 +108,6 @@ h4 {
 .bet:hover .odds {
   width: 86px;
   -webkit-transition: width 400ms;
-  -moz-transition: width 400ms;
-  -o-transition: width 400ms;
   transition: width 400ms;
 }
 .team-name {
@@ -126,8 +132,6 @@ h4 {
   text-align: center;
   color: white;
   -webkit-transition: width 400ms;
-  -moz-transition: width 400ms;
-  -o-transition: width 400ms;
   transition: width 400ms;
 }
 .slips {
@@ -142,7 +146,11 @@ h4 {
   box-shadow: 4px 4px 0 0 rgba(0, 0, 0, 0.1);
   text-align: center;
   overflow: hidden;
-  transition: opacity .3s;
+  -webkit-transition: all .3s;
+          transition: all .3s;
+}
+.slip-completed {
+  height: 0;
 }
 .slip-odds {
   display: block;
@@ -182,8 +190,6 @@ h4 {
   vertical-align: top;
   box-shadow: inset 0 0 0 2px #2a5cff;
   -webkit-transition: all 200ms;
-  -moz-transition: all 200ms;
-  -o-transition: all 200ms;
   transition: all 200ms;
 }
 .def-btn:focus {
@@ -194,8 +200,6 @@ h4 {
   color: #2a5cff;
   cursor: pointer;
   -webkit-transition: all 200ms;
-  -moz-transition: all 200ms;
-  -o-transition: all 200ms;
   transition: all 200ms;
 }
 .slip-returns {
@@ -209,14 +213,16 @@ h4 {
   width: 100%;
   margin: 32px 0 0 0;
 }
-.receipts::before {
+.receipts:before {
   display: block;
   content: "Your Receipts";
   width: 220px;
   height: 0;
   font: 700 32px "Roboto Condensed";
   color: rgba(0, 0, 0, 0.5);
-  transform: rotate(-90deg) translate(-140px, -170px);
+  -webkit-transform: rotate(-90deg) translate(-140px, -170px);
+      -ms-transform: rotate(-90deg) translate(-140px, -170px);
+          transform: rotate(-90deg) translate(-140px, -170px);
 }
 .receipts-table {
   width: 100%;
@@ -250,6 +256,7 @@ h4 {
   z-index: 666;
   overflow: visible;
   opacity: 0;
+  filter: alpha(opacity=0);
 }
 .modal-wrapper:before {
   content: "";
@@ -263,19 +270,31 @@ h4 {
 }
 .modal-wrapper-enter {
   opacity: 1;
-  animation: modal-wrapper-enter .8s;
+  filter: alpha(opacity=100);
+  -webkit-animation: modal-wrapper-enter .8s;
+          animation: modal-wrapper-enter .8s;
+}
+@-webkit-keyframes modal-wrapper-enter {
+  0% {opacity: 0;filter: alpha(opacity=0);}
+  100% {opacity: 1;filter: alpha(opacity=100);}
 }
 @keyframes modal-wrapper-enter {
-  0% {opacity: 0;}
-  100% {opacity: 1;}
+  0% {opacity: 0;filter: alpha(opacity=0);}
+  100% {opacity: 1;filter: alpha(opacity=100);}
 }
 .modal-wrapper-exit {
   opacity: 0;
-  animation: modal-wrapper-exit .8s;
+  filter: alpha(opacity=0);
+  -webkit-animation: modal-wrapper-exit .8s;
+          animation: modal-wrapper-exit .8s;
+}
+@-webkit-keyframes modal-wrapper-exit {
+  0% {opacity: 1;filter: alpha(opacity=100);}
+  100% {opacity: 0;filter: alpha(opacity=0);}
 }
 @keyframes modal-wrapper-exit {
-  0% {opacity: 1;}
-  100% {opacity: 0;}
+  0% {opacity: 1;filter: alpha(opacity=100);}
+  100% {opacity: 0;filter: alpha(opacity=0);}
 }
 .modal {
   width: 32vw;
@@ -285,23 +304,39 @@ h4 {
   padding: 16px 24px 0;
   background-color: white;
   box-shadow: 4px 4px 0 0 rgba(0, 0, 0, 0.1);
-  transform: translateY(-136px);
+  -webkit-transform: translateY(-136px);
+      -ms-transform: translateY(-136px);
+          transform: translateY(-136px);
 }
 .modal-enter {
-  transform: translateY(18vh);
-  animation: modal-enter .8s;
+  -webkit-transform: translateY(18vh);
+      -ms-transform: translateY(18vh);
+          transform: translateY(18vh);
+  -webkit-animation: modal-enter .8s;
+          animation: modal-enter .8s;
+}
+@-webkit-keyframes modal-enter {
+  0%{-webkit-transform: translateY(-136px);transform: translateY(-136px);}
+  100%{-webkit-transform: translateY(18vh);transform: translateY(18vh);}
 }
 @keyframes modal-enter {
-  0%{transform: translateY(-136px);}
-  100%{transform: translateY(18vh);}
+  0%{-webkit-transform: translateY(-136px);transform: translateY(-136px);}
+  100%{-webkit-transform: translateY(18vh);transform: translateY(18vh);}
 }
 .modal-exit {
-  transform: translateY(-136px);
-  animation: modal-exit .8s;
+  -webkit-transform: translateY(-136px);
+      -ms-transform: translateY(-136px);
+          transform: translateY(-136px);
+  -webkit-animation: modal-exit .8s;
+          animation: modal-exit .8s;
+}
+@-webkit-keyframes modal-exit {
+  0%{-webkit-transform: translateY(18vh);transform: translateY(18vh);}
+  100%{-webkit-transform: translateY(-136px);transform: translateY(-136px);}
 }
 @keyframes modal-exit {
-  0%{transform: translateY(18vh);}
-  100%{transform: translateY(-136px);}
+  0%{-webkit-transform: translateY(18vh);transform: translateY(18vh);}
+  100%{-webkit-transform: translateY(-136px);transform: translateY(-136px);}
 }
 .modal-title {
   font: 900 22px "Roboto Condensed";
@@ -317,4 +352,5 @@ h4 {
 }
 .hide {
   opacity: 0;
+  filter: alpha(opacity=0);
 }

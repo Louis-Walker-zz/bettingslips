@@ -6,6 +6,8 @@ function showSlip(target) {
 
 function removeSlip(target) {
   elevateNode(target, 2).classList.add("hide");
+  elevateNode(target, 2).classList.add("slip-completed");
+
   setTimeout(removeSlipNode.bind(null, target), 300);
 
   function removeSlipNode(target) {
