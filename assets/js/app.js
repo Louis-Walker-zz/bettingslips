@@ -5,20 +5,20 @@ function addSlip() {
       $thisSlip = $slipArray.length,
       thisBet = openBets[$slipId - 1];
 
-  createElement($slips, "li", ["slip"], $slipId);
+  createElement($slips, "li", "slip", $slipId);
   var $selectedSlip = document.getElementsByClassName("slip")[$slipArray.length - 1];
   $selectedSlip.classList.add("hide");
 
-  createElement($selectedSlip, "h4", ["slip-name"]);
+  createElement($selectedSlip, "h4", "slip-name");
   getElementByBetId($slipId, document.getElementsByClassName("slip-name")).innerHTML = thisBet.name;
 
-  createElement($selectedSlip, "span", ["slip-odds"]);
+  createElement($selectedSlip, "span", "slip-odds");
   getElementByBetId($slipId, document.getElementsByClassName("slip-odds")).innerHTML = thisBet.odds.numerator + "/" + thisBet.odds.denominator;
 
-  createElement($selectedSlip, "form", ["stake-form"]);
+  createElement($selectedSlip, "form", "stake-form");
   var $stakeForm = document.getElementsByClassName("stake-form")[$slipArray.length - 1];
 
-  createElement($stakeForm, "input", ["slip-stake"]);
+  createElement($stakeForm, "input", "slip-stake");
   var stakeType = document.createAttribute("type");
   stakeType.value = "number";
   getElementByBetId($slipId, document.getElementsByClassName("slip-stake"), 2).setAttributeNode(stakeType);
@@ -27,14 +27,14 @@ function addSlip() {
   getElementByBetId($slipId, document.getElementsByClassName("slip-stake"), 2).setAttributeNode(stakePlaceholder);
   getElementByBetId($slipId, document.getElementsByClassName("slip-stake"), 2).addEventListener("input", updateReturns);
 
-  createElement($stakeForm, "button", ["submit-stake"]);
+  createElement($stakeForm, "button", ["submit-stake", "def-btn"]);
   getElementByBetId($slipId, document.getElementsByClassName("submit-stake"), 2).innerHTML = "Bet";
   var submitStakeType = document.createAttribute("type");
   submitStakeType.value = "button";
   getElementByBetId($slipId, document.getElementsByClassName("submit-stake"), 2).addEventListener("click", submitBet);
   getElementByBetId($slipId, document.getElementsByClassName("submit-stake"), 2).setAttributeNode(submitStakeType);
 
-  createElement($selectedSlip, "span", ["slip-returns"]);
+  createElement($selectedSlip, "span", "slip-returns");
   getElementByBetId($slipId, document.getElementsByClassName("slip-returns")).innerHTML = "Potential Profit: &pound0.00";
 
   function updateReturns() {
@@ -72,7 +72,7 @@ function addSlip() {
 
       removeSlip(this);
     } else {
-      // TODO: Replace Vex Dialogue
+      createModal();
     }
   }
 
@@ -82,7 +82,7 @@ function addSlip() {
 // Adds receipt to active-receipts
 function createReceipt(receiptParams, $slipId) {
   // Receipt Template
-  createElement($activeReceipts, "tr", ["receipt"], $slipId);
+  createElement($activeReceipts, "tr", "receipt", $slipId);
   var receiptId = document.createAttribute("name");
   receiptId.value = receiptParams.transaction_id.toString();
   getElementByBetId($slipId, document.getElementsByClassName("receipt"), 0).setAttributeNode(receiptId);
@@ -114,13 +114,22 @@ function createReceipt(receiptParams, $slipId) {
 
 // Single-Purpose Functions
 // Creates element with specified data-betId and classes
-function createElement(parent, type, classes, betId) {
+function createElement(parent, type, classes, betId, insertBefore) {
   var el = document.createElement(type);
-  parent.appendChild(el);
+
+  if (insertBefore == undefined) {
+    parent.appendChild(el);
+  } else if (insertBefore) {
+    parent.insertBefore(el, parent.firstChild);
+  }
 
   if (classes !== undefined) {
-    for (var i = 0; classes.length > i; i++) {
-      el.classList.add(classes[i]);
+    if (typeof classes === "string") {
+      el.classList.add(classes);
+    } else if (typeof classes === "object") {
+      for (var i = 0; classes.length > i; i++) {
+        el.classList.add(classes[i]);
+      }
     }
   }
 

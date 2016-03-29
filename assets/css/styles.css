@@ -171,6 +171,9 @@ h4 {
 }
 .submit-stake {
   width: 42%;
+}
+.def-btn {
+  width: 72px;
   height: 28px;
   background-color: #2a5cff;
   border: none;
@@ -183,10 +186,10 @@ h4 {
   -o-transition: all 200ms;
   transition: all 200ms;
 }
-.submit-stake:focus {
+.def-btn:focus {
   outline: none;
 }
-.submit-stake:hover {
+.def-btn:hover {
   background-color: white;
   color: #2a5cff;
   cursor: pointer;
@@ -240,21 +243,78 @@ h4 {
 .receipts tbody tr td {
   padding-top: 6px;
 }
-.hide {
-  opacity: 0;
-}
 .modal-wrapper {
   width: 100vw;
   height: 0;
   position: absolute;
   z-index: 666;
   overflow: visible;
+  opacity: 0;
+}
+.modal-wrapper:before {
+  content: "";
+  display: block;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.3);
+  position: absolute;
+  top: 0;
+  z-index: -1;
+}
+.modal-wrapper-enter {
+  opacity: 1;
+  animation: modal-wrapper-enter .8s;
+}
+@keyframes modal-wrapper-enter {
+  0% {opacity: 0;}
+  100% {opacity: 1;}
+}
+.modal-wrapper-exit {
+  opacity: 0;
+  animation: modal-wrapper-exit .8s;
+}
+@keyframes modal-wrapper-exit {
+  0% {opacity: 1;}
+  100% {opacity: 0;}
 }
 .modal {
   width: 32vw;
   min-width: 220px;
-  height: 124px;
-  margin: 18vh auto;
+  height: 132px;
+  margin: 0 auto;
+  padding: 16px 24px 0;
   background-color: white;
   box-shadow: 4px 4px 0 0 rgba(0, 0, 0, 0.1);
+  transform: translateY(-136px);
+}
+.modal-enter {
+  transform: translateY(18vh);
+  animation: modal-enter .8s;
+}
+@keyframes modal-enter {
+  0%{transform: translateY(-136px);}
+  100%{transform: translateY(18vh);}
+}
+.modal-exit {
+  transform: translateY(-136px);
+  animation: modal-exit .8s;
+}
+@keyframes modal-exit {
+  0%{transform: translateY(18vh);}
+  100%{transform: translateY(-136px);}
+}
+.modal-title {
+  font: 900 22px "Roboto Condensed";
+  color: rgba(0, 0, 0, 0.5);
+}
+.modal-body {
+  margin-top: 4px;
+  font: 700 18px "Roboto Condensed";
+  color: rgba(0, 0, 0, 0.3);
+}
+.modal-close {
+  margin: 8px 0 0 308px;
+}
+.hide {
+  opacity: 0;
 }
